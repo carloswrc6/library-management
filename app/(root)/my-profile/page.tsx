@@ -1,24 +1,25 @@
-import BookList from "@/components/BookList";
-import { Button } from "@/components/ui/button";
-import { sampleBooks } from "@/constants";
-import { signOut } from "next-auth/react";
 import React from "react";
+import { Button } from "@/components/ui/button";
+import { signOut } from "@/auth";
+import BookList from "@/components/BookList";
+import { sampleBooks } from "@/constants";
 
 const Page = () => {
   return (
     <>
       <form
-        className="mb-10"
         action={async () => {
           "use server";
+
           await signOut();
         }}
+        className="mb-10"
       >
         <Button>Logout</Button>
       </form>
-      <BookList title="Borrowed Books" books={sampleBooks}></BookList>
+
+      <BookList title="Borrowed Books" books={sampleBooks} />
     </>
   );
 };
-
 export default Page;

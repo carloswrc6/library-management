@@ -17,7 +17,7 @@ const NoResults = ({ title }: NoResultsProps) => {
       </div>
       <div className="book-info flex flex-col items-center text-center w-full">
         <Image
-          src="/images/no-results.png"
+          src="/icons/no-result.svg"
           width={150}
           height={150}
           alt="No Results"

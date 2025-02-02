@@ -1,24 +1,28 @@
 import React from "react";
-import { Button } from "@/components/ui/button";
-import { signOut } from "@/auth";
-import BookList from "@/components/BookList";
-import { sampleBooks } from "@/constants";
+import CardProfile from "@/components/CardProfile";
+import BookBorrowed from "@/components/BookBorrowed";
+import { db } from "@/database/drizzle";
+import { books } from "@/database/schema";
+import { desc } from "drizzle-orm";
 
-const Page = () => {
+const Page = async () => {
+  const latestBooks = (await db
+    .select()
+    .from(books)
+    .limit(10)
+    .orderBy(desc(books.createdAt))) as Book[];
+
+  console.log("latestBooks ", latestBooks);
   return (
     <>
-      <form
-        action={async () => {
-          "use server";
-
-          await signOut();
-        }}
-        className="mb-10"
-      >
-        <Button>Logout</Button>
-      </form>
-
-      <BookList title="Borrowed Books" books={sampleBooks} />
+      <div className="book-profile">
+        <div className="flex flex-1 flex-col">
+          <CardProfile />
+        </div>
+        <div className="relative flex flex-1 justify-center">
+          <BookBorrowed title="Borrowed Books" books={latestBooks}   />
+        </div>
+      </div>
     </>
   );
 };

@@ -42,7 +42,10 @@ const Header = ({ session }: { session: Session }) => {
           </Link>
         </li>
         <li className="flex justify-center">
-          <form className="mb-10 flex items-center space-x-3">
+          <Link
+            className="mb-10 flex items-center space-x-3"
+            href="/my-profile"
+          >
             <Avatar>
               <AvatarFallback className="text-lg bg-blue-200 font-bold">
                 {getInitials(session?.user?.name || "US")}
@@ -51,20 +54,22 @@ const Header = ({ session }: { session: Session }) => {
             <span className="text-lg font-bold text-white">
               {getName(session?.user?.name || "User")}
             </span>
-          </form>
+          </Link>
         </li>
-        <li>
-          <form onClick={() => logOutAction()} className="mb-9">
-            <button type="button" className="cursor-pointer">
-              <Image
-                src="/icons/logout.svg"
-                width={37}
-                height={37}
-                alt="Logout"
-              />
-            </button>
-          </form>
-        </li>
+        {pathname !== "/my-profile" && (
+          <li>
+            <form onClick={() => logOutAction()} className="mb-9">
+              <button type="button" className="cursor-pointer">
+                <Image
+                  src="/icons/logout.svg"
+                  width={37}
+                  height={37}
+                  alt="Logout"
+                />
+              </button>
+            </form>
+          </li>
+        )}
       </ul>
     </header>
   );

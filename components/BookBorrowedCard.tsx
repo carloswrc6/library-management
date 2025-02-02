@@ -23,6 +23,13 @@ const BookBorrowedCard = ({
   hideDetails = false,
 }: Book) => (
   <li className={cn(isLoanedBook && "xs:w-52 w-full")}>
+    <Image
+      src="/icons/warning.svg"
+      width={25}
+      height={25}
+      alt="No Results"
+      className="absolute top-0 left-0"
+    />
     <Link
       href={`/books/${id}`}
       className={cn(isLoanedBook && "w-full flex flex-col items-center")}

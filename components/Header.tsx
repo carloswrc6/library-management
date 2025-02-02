@@ -11,7 +11,7 @@ import { logOutAction } from "@/lib/actions/auth";
 const Header = ({ session }: { session: Session }) => {
   const pathname = usePathname();
   return (
-    <header className="my-10 flex justify-between gap-5">
+    <header className="mt-10 flex justify-between gap-5">
       <Link href="/">
         <div className="flex flex-row gap-3">
           <Image src="/icons/logo.svg" alt="logo" width={40} height={40} />

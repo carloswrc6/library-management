@@ -1,12 +1,46 @@
+"use client";
+
 import BookList from "@/components/BookList";
+// import CustomPagination from "@/components/CustomPagination";
+// import CustomSelect from "@/components/CustomSelect";
 import NoResults from "@/components/NoResults";
 import { Input } from "@/components/ui/input";
+import { getSearchBook } from "@/lib/actions/book";
 import Image from "next/image";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const page = () => {
-  const search = "ABC de algoritmos";
-  const searchResults = [];
+  const [search, setSearch] = useState("");
+  const [searchResults, setSearchResults] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  // const [selectedFruit, setSelectedFruit] = useState("");
+  // const fruits = [
+  //   { label: "Apple", value: "apple" },
+  //   { label: "Banana", value: "banana" },
+  //   { label: "Blueberry", value: "blueberry" },
+  //   { label: "Grapes", value: "grapes" },
+  //   { label: "Pineapple", value: "pineapple" },
+  // ];
+
+  const handleClearSearch = () => {
+    setSearch("");
+    setSearchResults([]);
+  };
+
+  useEffect(() => {
+    if (!search) {
+      setSearchResults([]);
+      return;
+    }
+    setIsLoading(true);
+    const handler = setTimeout(async () => {
+      const { data } = await getSearchBook(search);
+      setSearchResults(data);
+      setIsLoading(false);
+    }, 500);
+
+    return () => clearTimeout(handler);
+  }, [search]);
 
   return (
     <div className="w-full">
@@ -32,21 +66,35 @@ const page = () => {
               className="form-input w-full pl-10"
               type="text"
               placeholder="Search for a book..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
             />
           </div>
         </div>
       </section>
-      <section>
-        {searchResults.length < 1 ? (
-          <NoResults title={search} />
-        ) : (
-          <BookList
-            title="Search Results "
-            books={searchResults.slice(1)}
-            containerClassName="mt-28"
-          />
-        )}
-      </section>
+      {search && (
+        <section>
+          {isLoading ? (
+            <div className="text-center text-gray-500 mt-10">Buscando...</div>
+          ) : searchResults.length > 0 ? (
+            <BookList
+              title="Search Results "
+              books={searchResults}
+              containerClassName="mt-28"
+            >
+              {/* <CustomSelect
+                label="Filter By"
+                options={fruits}
+                value={selectedFruit}
+                onChange={setSelectedFruit}
+              /> */}
+            </BookList>
+          ) : (
+            <NoResults title={search} onClearSearch={handleClearSearch} />
+          )}
+        </section>
+      )}
+      {/* <CustomPagination></CustomPagination> */}
     </div>
   );
 };

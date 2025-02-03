@@ -4,9 +4,10 @@ import { Button } from "./ui/button";
 
 interface NoResultsProps {
   title: string;
+  onClearSearch: Function;
 }
 
-const NoResults = ({ title }: NoResultsProps) => {
+const NoResults = ({ title, onClearSearch }: NoResultsProps) => {
   return (
     <section>
       <div className="book-info">
@@ -28,7 +29,9 @@ const NoResults = ({ title }: NoResultsProps) => {
           We couldn’t find any books matching your search. <br />
           Try using different keywords or check for typos.
         </span>
-        <Button className="book-btn text-lg max-w-md">Clear Search</Button>
+        <Button className="book-btn text-lg max-w-md" onClick={onClearSearch}>
+          Clear Search
+        </Button>
       </div>
     </section>
   );

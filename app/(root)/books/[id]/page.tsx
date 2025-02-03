@@ -1,28 +1,30 @@
 import BookOverview from "@/components/BookOverview";
-import { db } from "@/database/drizzle";
-import { books } from "@/database/schema";
-import { desc, eq } from "drizzle-orm";
 import React from "react";
 import { redirect } from "next/navigation";
 import { auth } from "@/auth";
 import BookVideo from "@/components/BookVideo";
 import BookList from "@/components/BookList";
+import { getBookDetails, getBookSimilar } from "@/lib/actions/book";
 
 const page = async ({ params }: { params: Promise<{ id: string }> }) => {
   const id = (await params).id;
   const session = await auth();
 
-  const [bookDetails] = await db
-    .select()
-    .from(books)
-    .where(eq(books.id, id))
-    .limit(1);
+  const { success: bookSuccess, data: bookData } = await getBookDetails(id);
 
-  const bookSimilar = (await db
-      .select()
-      .from(books)
-      .limit(6)
-      .orderBy(desc(books.createdAt))) as Book[];
+  if (!bookSuccess || !bookData.length) {
+    console.error("Error fetching book details");
+    return;
+  }
+
+  const [bookDetails] = bookData;
+
+  const { success: similarSuccess, data: similarData } = await getBookSimilar(
+    bookDetails.genre,
+    bookDetails.id
+  );
+
+  const bookSimilar = similarSuccess ? similarData : [];
 
   if (!bookDetails) redirect("/404");
   return (

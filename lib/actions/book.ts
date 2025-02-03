@@ -22,12 +22,15 @@ export const borrowBook = async (params: BorrowBookParams) => {
     }
 
     const dueDate = dayjs().add(7, "day").toDate().toDateString();
-    const record = db.insert(borrowRecords).values({
-      userId,
-      bookId,
-      dueDate,
-      status: "BORROWED",
-    });
+    const record = await db
+      .insert(borrowRecords)
+      .values({
+        userId,
+        bookId,
+        dueDate,
+        status: "BORROWED",
+      })
+      .returning();
 
     await db
       .update(books)
@@ -36,7 +39,7 @@ export const borrowBook = async (params: BorrowBookParams) => {
 
     return {
       success: true,
-      data: JSON.parse(JSON.stringify(record)),
+      data: record,
     };
   } catch (e) {
     console.log(e);
@@ -60,7 +63,7 @@ export const listLatestBooks = async () => {
       data: result,
     };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return {
       success: false,
       error: "An unexpected error occurred",
@@ -80,7 +83,7 @@ export const getBookDetails = async (id: string) => {
       data: result,
     };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return {
       success: false,
       error: "An unexpected error occurred",
@@ -106,7 +109,7 @@ export const getBookSimilar = async (genre: string, excludeBookId?: string) => {
       data: result,
     };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return {
       success: false,
       error: "An unexpected error occurred",
@@ -116,12 +119,11 @@ export const getBookSimilar = async (genre: string, excludeBookId?: string) => {
 
 export const getSearchBook = async (title: string) => {
   try {
-
     if (!title) {
       return {
         success: false,
         error: "Title is required",
-        data: []
+        data: [],
       };
     }
 
@@ -130,12 +132,12 @@ export const getSearchBook = async (title: string) => {
       .from(books)
       .where(ilike(books.title, `%${title}%`))
       .limit(10);
-    
+
     if (result.length === 0) {
       return {
         success: false,
         error: "No books found matching the search criteria",
-        data: []
+        data: [],
       };
     }
 
@@ -144,7 +146,7 @@ export const getSearchBook = async (title: string) => {
       data: result,
     };
   } catch (e) {
-    console.log(e)
+    console.log(e);
     return {
       success: false,
       error: "An unexpected error occurred",

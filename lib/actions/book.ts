@@ -153,3 +153,70 @@ export const getSearchBook = async (title: string) => {
     };
   }
 };
+
+export const getBorrowedBookById = async (id: string) => {
+  try {
+    console.log("getBorrowedBookById ", id);
+
+    // id, titulo, genero, fecha de prestamos, tiempo restante para devolver el libro segun la fecha, fecha de retorno
+    const result = await db
+      .select({
+        id: borrowRecords.bookId,
+        title: books.title,
+        genre: books.genre,
+        borrowDate: borrowRecords.borrowDate,
+        dueDate: borrowRecords.dueDate,
+        coverColor: books.coverColor,
+        coverUrl: books.coverUrl,
+        returnDate: borrowRecords.returnDate,
+      })
+      .from(borrowRecords)
+      .innerJoin(books, eq(books.id, borrowRecords.bookId))
+      .where(
+        and(
+          eq(borrowRecords.userId, id)
+          // , eq(borrowRecords.status, "BORROWED")
+        )
+      );
+
+    const currentDate = new Date();
+
+    const formattedResult = result.map((item) => {
+      const dueDateObj = new Date(item.dueDate);
+
+      const diffTime = dueDateObj - currentDate;
+      const daysUntilDueDate = Math.ceil(diffTime / (1000 * 3600 * 24));
+
+      return {
+        ...item,
+        borrowDate: new Date(item.borrowDate).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        dueDate: new Date(item.dueDate).toLocaleDateString("en-US", {
+          month: "short",
+          day: "numeric",
+        }),
+        daysUntilDueDate,
+        returnDate: item.returnDate
+          ? new Date(item.returnDate).toLocaleDateString("en-US", {
+              month: "short",
+              day: "numeric",
+            })
+          : '',
+      };
+    });
+
+    console.log("formattedResult ", formattedResult);
+    return {
+      success: true,
+      data: formattedResult,
+    };
+  } catch (e) {
+    console.log(e);
+    return {
+      success: false,
+      error: "An unexpected error occurred",
+    };
+  }
+};

@@ -16,6 +16,17 @@ interface Book {
   hideDetails?: boolean;
 }
 
+interface BorrowedBook {
+  id: string;
+  title: string;
+  genre: string;
+  coverColor: string;
+  coverUrl: string;
+  borrowDate: string;
+  daysUntilDueDate: number;
+  returnDate?: string;
+}
+
 interface AuthCredentials {
   fullName: string;
   email: string;

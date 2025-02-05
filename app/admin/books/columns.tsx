@@ -1,22 +1,43 @@
-"use client"
+"use client";
 
-import { Button } from "@/components/ui/button"
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from "@radix-ui/react-dropdown-menu"
-import { ColumnDef } from "@tanstack/react-table"
-import { MoreHorizontal } from "lucide-react"
+import UserAvatar from "@/components/admin/UserAvatar";
+import { Button } from "@/components/ui/button";
+import { toast } from "@/hooks/use-toast";
+import { deleteUser } from "@/lib/admin/actions/user";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@radix-ui/react-dropdown-menu";
+import { ColumnDef } from "@tanstack/react-table";
+import { MoreHorizontal } from "lucide-react";
+import Image from "next/image";
+import { useCallback } from "react";
 
 export type column = {
-  id: string
-  title: string
-  author: string
-  genre: string
-  created_at: string
-}
+  id: string;
+  title: string;
+  author: string;
+  genre: string;
+  coverUrl: string;
+  createAt: string;
+};
 
 export const columns: ColumnDef<column>[] = [
   {
     accessorKey: "title",
     header: "Book Title",
+    cell: ({ row }) => {
+      return (
+        <UserAvatar
+          src="https://github.com/shadcn.png"
+          name={row.original.title}
+        />
+      );
+    },
   },
   {
     accessorKey: "author",
@@ -27,7 +48,7 @@ export const columns: ColumnDef<column>[] = [
     header: "Genre",
   },
   {
-    accessorKey: "created_at",
+    accessorKey: "createAt",
     header: "Date Created",
   },
   {
@@ -35,29 +56,32 @@ export const columns: ColumnDef<column>[] = [
     header: "Actions",
     enableHiding: false,
     cell: ({ row }) => {
-      const payment = row.original
- 
+      const handleDelete = useCallback(async () => {
+        console.log("Deleted ID:", row.original.id);
+        const { success, message } = await deleteUser(row.original.id);
+        if (success) {
+          toast({
+            title: "Success",
+            description: message,
+          });
+        } else {
+          toast({
+            title: "Delete user",
+            description: message ?? "An error occurred.",
+            variant: "destructive",
+          });
+        }
+      }, [row.original.id]);
       return (
-        <DropdownMenu>
-          <DropdownMenuTrigger asChild>
-            <Button variant="ghost" className="h-8 w-8 p-0">
-              <span className="sr-only">Open menu</span>
-              <MoreHorizontal />
-            </Button>
-          </DropdownMenuTrigger>
-          <DropdownMenuContent align="end">
-            <DropdownMenuLabel>Actions</DropdownMenuLabel>
-            <DropdownMenuItem
-              onClick={() => navigator.clipboard.writeText(payment.id)}
-            >
-              Copy payment ID
-            </DropdownMenuItem>
-            <DropdownMenuSeparator />
-            <DropdownMenuItem>View customer</DropdownMenuItem>
-            <DropdownMenuItem>View payment details</DropdownMenuItem>
-          </DropdownMenuContent>
-        </DropdownMenu>
-      )
+        <button onClick={handleDelete}>
+          <Image
+            src="/icons/admin/trash.svg"
+            width={20}
+            height={20}
+            alt="Logo"
+          />
+        </button>
+      );
     },
   },
-]
+];

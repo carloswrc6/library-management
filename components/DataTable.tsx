@@ -15,9 +15,6 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Button } from "./ui/button";
-import Link from "next/link";
-import { Input } from "./ui/input";
 
 interface DataTableProps<TData, TValue> {
   columns: ColumnDef<TData, TValue>[];
@@ -35,23 +32,7 @@ export function DataTable<TData, TValue>({
   });
 
   return (
-    <div>
-      <h2 className="text-xl font-semibold">All Books</h2>
-      <div className="flex flex-wrap pt-2 pb-5 items-center justify-between gap-2">
-        <Input
-          placeholder="Filter emails..."
-          value={(table.getColumn("email")?.getFilterValue() as string) ?? ""}
-          onChange={(event) =>
-            table.getColumn("email")?.setFilterValue(event.target.value)
-          }
-          className="max-w-sm"
-        />
-        <Button className="bg-primary-admin" asChild>
-          <Link href="/admin/books/new" className="text-white">
-            + Create a New Book
-          </Link>
-        </Button>
-      </div>
+    <div>      
       <div className="rounded-md border">
         <Table>
           <TableHeader>

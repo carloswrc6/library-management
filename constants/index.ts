@@ -1,3 +1,14 @@
+export const ROLE_ENUM = [
+  {
+    value: 'USER',
+    label: 'User',
+  },
+  {
+    value: 'ADMIN',
+    label: 'Admin',
+  }
+]
+
 export const navigationLinks = [
   {
     href: "/library",

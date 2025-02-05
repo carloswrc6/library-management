@@ -1,13 +1,19 @@
 export const ROLE_ENUM = [
   {
-    value: 'USER',
-    label: 'User',
+    value: "USER",
+    label: "User",
   },
   {
-    value: 'ADMIN',
-    label: 'Admin',
-  }
-]
+    value: "ADMIN",
+    label: "Admin",
+  },
+];
+
+export const STATUS_BOOK_ENUM = [
+  { value: "BORROWED", label: "Borrowed", colorClass: "bg-purple-500" },
+  { value: "RETURNED", label: "Returned", colorClass: "bg-sky-300" },
+  { value: "LATE RETURN", label: "Late return", colorClass: "bg-red-500" },
+];
 
 export const navigationLinks = [
   {

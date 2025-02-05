@@ -69,7 +69,7 @@ export default {
           DEFAULT: "#EF3A4B",
           400: "#F46F70",
           500: "#E27233",
-          800: "#EF3A4B",
+          800: "#E27233", 
         },
         blue: {
           100: "#0089F1",
@@ -96,6 +96,12 @@ export default {
         },
         gray: {
           100: "#CBD5E1",
+        },
+        purple: {
+          500: "#8B5CF6",
+        },
+        sky: {
+          300: "#7DD3FC",
         },
       },
       screens: {

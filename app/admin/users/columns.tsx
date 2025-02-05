@@ -1,6 +1,7 @@
 "use client";
 
 import UserAvatar from "@/components/admin/UserAvatar";
+import BookImage from "@/components/BookImage";
 import CustomSelect from "@/components/CustomSelect";
 import { ROLE_ENUM } from "@/constants";
 import { toast } from "@/hooks/use-toast";
@@ -28,7 +29,7 @@ export const columns: ColumnDef<column>[] = [
     cell: ({ row }) => {
       return (
         <UserAvatar
-          src="https://github.com/shadcn.png"
+          src={row.original.universityCard}
           name={row.original.name}
           email={row.original.email}
         />

@@ -2,7 +2,7 @@
 
 import { ROLE_ENUM } from "@/constants";
 import { db } from "@/database/drizzle";
-import { users } from "@/database/schema";
+import { borrowRecords, users } from "@/database/schema";
 import { count, eq } from "drizzle-orm";
 
 export const deleteUser = async (id: string) => {

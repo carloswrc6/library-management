@@ -101,3 +101,55 @@ export const listUsers = async () => {
     };
   }
 };
+
+export const listAccountRequest = async () => {
+  try {
+    const result = await db
+      .select({
+        id: users.id,
+        name: users.fullName,
+        email: users.email,
+        dateJoined: users.createdAt,
+        universityId: users.universityId,
+        universityCard: users.universityCard,
+        status: users.status,
+      })
+      .from(users)
+      .where(eq(users.status, "PENDING"));
+
+    const formattedResult = result.map((item) => ({
+      ...item,
+      dateJoined: new Date(item.dateJoined).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+      }),
+    }));
+
+    return { success: true, data: formattedResult };
+  } catch (e) {
+    console.error(e);
+    return { success: false, message: "An error occurred" };
+  }
+};
+
+export const accountRequest = async (userId: string, newStatus: string) => {
+  try {
+    const result = await db
+      .update(users)
+      .set({ status: newStatus })
+      .where(eq(users.id, userId));
+    
+    if (result.rowCount === 0) {
+      return {
+        success: true,
+        message: "User not found",
+      };
+    }
+
+    return { success: true, message: "Status updated successfully" };
+  } catch (e) {
+    console.error(e);
+    return { success: false, message: "An error occurred" };
+  }
+};

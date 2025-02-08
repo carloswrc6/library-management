@@ -1,11 +1,41 @@
-import React from 'react'
+import AccountRequestsList from "@/components/AccountRequestsList";
+import InfoCard from "@/components/InfoCard";
+import RecentlyAddedBooks from "@/components/RecentlyAddedBooks";
+import RequestList from "@/components/RequestList";
+import { listBorrowRequests } from "@/lib/admin/actions/home";
+import { listAccountRequest } from "@/lib/admin/actions/user";
+import React from "react";
 
-const page = () => {
+const page = async () => {
+  const { success: successBorrow, data: bookData } = await listBorrowRequests();
+  const borrowRequestData = successBorrow ? bookData : [];
+
+  const { success: successAccount, data: userData } =
+    await listAccountRequest();
+  const accountRequestData = successAccount ? userData : [];
+  console.log(" xxx accountRequestData ", accountRequestData);
+
   return (
     <div>
-      Page Admin
+      <div className="flex w-full gap-2">
+        <InfoCard title={"Barrowed Books"} total={123} trend={4}></InfoCard>
+        <InfoCard title={"Barrowed Books"} total={123} trend={-2}></InfoCard>
+        <InfoCard title={"Barrowed Books"} total={123} trend={4}></InfoCard>
+      </div>
+      <div className="flex gap-4">
+        <div className="flex flex-col gap-4 w-1/2 py-5">
+          <RequestList dataList={borrowRequestData}></RequestList>
+          <AccountRequestsList
+            // dataList={accountRequestData}
+            dataList={borrowRequestData}
+          ></AccountRequestsList>
+        </div>
+        <div className="w-1/2 bg-green-200 p-4">
+          <RecentlyAddedBooks></RecentlyAddedBooks>
+        </div>
+      </div>
     </div>
-  )
-}
+  );
+};
 
-export default page
+export default page;

@@ -4,17 +4,25 @@ import { IKImage } from "imagekitio-next";
 import config from "@/lib/config";
 
 const UserAvatar = ({
+  classNameAvatar,
   src,
   name,
   email,
+  layout = "horizontal",
 }: {
+  classNameAvatar: string;
   src: string;
   name: string;
   email?: string;
+  layout?: "horizontal" | "vertical";
 }) => {
   return (
-    <div className="flex items-center gap-3">
-      <Avatar className="w-8 h-8 flex items-center justify-center rounded-full overflow-hidden">
+    <div
+      className={`flex ${layout === "vertical" ? "flex-col items-center" : "flex-row items-center"} gap-3`}
+    >
+      <Avatar
+        className={`w-8 h-8 flex items-center justify-center rounded-full overflow-hidden ${classNameAvatar} `}
+      >
         <IKImage
           path={src}
           urlEndpoint={config.env.imagekit.urlEndpoint}
@@ -24,12 +32,16 @@ const UserAvatar = ({
           loading="lazy"
           lqip={{ active: true }}
         />
-        <AvatarFallback>{name[0]}</AvatarFallback>
+        {name && <AvatarFallback>{name[0]}</AvatarFallback>}
       </Avatar>
-      <div className="flex flex-col">
-        <span className="font-bold">{name}</span>
-        {email && <span>{email}</span>}
-      </div>
+      {name && (
+        <div
+          className={`flex flex-col ${layout === "vertical" ? "items-center" : ""}`}
+        >
+          {name && <span className="font-bold">{name}</span>}
+          {email && <span>{email}</span>}
+        </div>
+      )}
     </div>
   );
 };

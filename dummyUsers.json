@@ -1,0 +1,137 @@
+[
+  {
+    "fullName": "Juan Pérez",
+    "email": "juan.perez@example.com",
+    "universityId": 111001,
+    "password": "password_juan",
+    "universityCard": "/ids/H1.png",
+    "status": "PENDING",
+    "role": "USER"
+  },
+  {
+    "fullName": "María Gómez",
+    "email": "maria.gomez@example.com",
+    "universityId": 111002,
+    "password": "password_maria",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "ADMIN"
+  },
+  {
+    "fullName": "Carlos López",
+    "email": "carlos.lopez@example.com",
+    "universityId": 111003,
+    "password": "password_carlos",
+    "universityCard": "/ids/H2.png",
+    "status": "REJECTED",
+    "role": "USER"
+  },
+  {
+    "fullName": "Ana Torres",
+    "email": "ana.torres@example.com",
+    "universityId": 111004,
+    "password": "password_ana",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "USER"
+  },
+  {
+    "fullName": "Pedro Ramírez",
+    "email": "pedro.ramirez@example.com",
+    "universityId": 111005,
+    "password": "password_pedro",
+    "universityCard": "/ids/H3.png",
+    "status": "PENDING",
+    "role": "USER"
+  },
+  {
+    "fullName": "Laura Fernández",
+    "email": "laura.fernandez@example.com",
+    "universityId": 111006,
+    "password": "password_laura",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "ADMIN"
+  },
+  {
+    "fullName": "Sofía Martínez",
+    "email": "sofia.martinez@example.com",
+    "universityId": 111007,
+    "password": "password_sofia",
+    "universityCard": "/ids/M1.png",
+    "status": "PENDING",
+    "role": "USER"
+  },
+  {
+    "fullName": "Miguel Castro",
+    "email": "miguel.castro@example.com",
+    "universityId": 111008,
+    "password": "password_miguel",
+    "universityCard": "/ids/H3.png",
+    "status": "REJECTED",
+    "role": "USER"
+  },
+  {
+    "fullName": "Isabela Ríos",
+    "email": "isabela.rios@example.com",
+    "universityId": 111009,
+    "password": "password_isabela",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "USER"
+  },
+  {
+    "fullName": "David Herrera",
+    "email": "david.herrera@example.com",
+    "universityId": 11101110,
+    "password": "password_david",
+    "universityCard": "/ids/H1.png",
+    "status": "PENDING",
+    "role": "USER"
+  },
+  {
+    "fullName": "Elena Navarro",
+    "email": "elena.navarro@example.com",
+    "universityId": 111011,
+    "password": "password_elena",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "ADMIN"
+  },
+  {
+    "fullName": "Javier Ortega",
+    "email": "javier.ortega@example.com",
+    "universityId": 111012,
+    "password": "password_javier",
+    "universityCard": "/ids/H2.png",
+    "status": "REJECTED",
+    "role": "USER"
+  },
+  {
+    "fullName": "Valeria Mendoza",
+    "email": "valeria.mendoza@example.com",
+    "universityId": 111013,
+    "password": "password_valeria",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "USER"
+  },
+  {
+    "fullName": "Oscar Salinas",
+    "email": "oscar.salinas@example.com",
+    "universityId": 111014,
+    "password": "password_oscar",
+    "universityCard": "/ids/H4.png",
+    "status": "PENDING",
+    "role": "USER"
+  },
+  {
+    "fullName": "Natalia Vargas",
+    "email": "natalia.vargas@example.com",
+    "universityId": 111015,
+    "password": "password_natalia",
+    "universityCard": "/ids/M1.png",
+    "status": "APPROVED",
+    "role": "ADMIN"
+  }
+]

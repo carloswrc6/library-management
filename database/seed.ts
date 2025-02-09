@@ -1,9 +1,11 @@
 import dummyBooks from "../dummybooks.json";
+import dummyUsers from "../dummyUsers.json";
 import ImageKit from "imagekit";
-import { books } from "@/database/schema";
+import { books, users } from "@/database/schema";
 import { neon } from "@neondatabase/serverless";
 import { drizzle } from "drizzle-orm/neon-http";
 import { config } from "dotenv";
+import { hash } from "bcryptjs";
 
 config({ path: ".env.local" });
 
@@ -38,6 +40,25 @@ const seed = async () => {
   console.log("Seeding data...");
 
   try {
+    for (const [index, user] of dummyUsers.entries()) {
+      console.log("index ", index);
+
+      if (!["PENDING", "APPROVED", "REJECTED"].includes(user.status)) {
+        throw new Error(
+          `Status inválido para el usuario ${user.email}: ${user.status}`
+        );
+      }
+
+      const hashedPassword = await hash(user.password, 10);
+
+      await db.insert(users).values({
+        ...user,
+        password: hashedPassword,
+      });
+    }
+
+    console.log("Users seeded successfully!");
+
     for (const [index, book] of dummyBooks.entries()) {
       console.log("index ", index);
 
@@ -47,16 +68,16 @@ const seed = async () => {
         "/books/covers"
       )) as string;
 
-      const videoUrl = (await uploadToImageKit(
-        book.videoUrl,
-        `${book.title}.mp4`,
-        "/books/videos"
-      )) as string;
+      // const videoUrl = (await uploadToImageKit(
+      //   book.videoUrl,
+      //   `${book.title}.mp4`,
+      //   "/books/videos"
+      // )) as string;
 
       await db.insert(books).values({
         ...book,
         coverUrl,
-        videoUrl,
+        // videoUrl,
       });
     }
 

@@ -18,7 +18,7 @@ const Page = async () => {
     <>
       <div className="book-profile">
         <div className="flex flex-1 flex-col">
-          <CardProfile />
+          <CardProfile session={session} />
         </div>
         <div className="relative flex flex-1 justify-center">
           <BookBorrowed title="Borrowed Books" books={borrowedBooks} />

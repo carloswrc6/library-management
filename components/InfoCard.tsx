@@ -3,7 +3,7 @@ import React from "react";
 interface Props {
   title: string;
   total: string;
-  trend?: string;
+  trend?: number;
 }
 
 const InfoCard = ({ title, total, trend }: Props) => {
@@ -12,12 +12,8 @@ const InfoCard = ({ title, total, trend }: Props) => {
       <div className="stat-info">
         <span className="stat-label">{title}</span>
         {trend && (
-          <p
-            className={
-              parseFloat(trend) >= 0 ? "text-green-500" : "text-red-500"
-            }
-          >
-            {parseFloat(trend) >= 0 ? "+" : ""}
+          <p className={trend >= 0 ? "text-green-500" : "text-red-500"}>
+            {trend >= 0 ? "+" : ""}
             {trend}%
           </p>
         )}

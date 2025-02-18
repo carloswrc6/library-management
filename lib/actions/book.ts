@@ -1,13 +1,35 @@
 "use server";
 
 import { db } from "@/database/drizzle";
-import { books, borrowRecords } from "@/database/schema";
+import { books, borrowRecords, users } from "@/database/schema";
 import { and, desc, eq, ilike, not } from "drizzle-orm";
 import dayjs from "dayjs";
 
 export const borrowBook = async (params: BorrowBookParams) => {
   const { userId, bookId } = params;
+
   try {
+
+    const userStatus = await db
+      .select({ status: users.status })
+      .from(users)
+      .where(eq(users.id, userId))
+      .limit(1);
+
+    if (!userStatus.length) {
+      return {
+        success: false,
+        error: "User not found",
+      };
+    }
+
+    if (["PENDING", "REJECTED"].includes(userStatus[0].status)) {
+      return {
+        success: false,
+        error: "User is not eligible to borrow books",
+      };
+    }
+
     const book = await db
       .select({ availableCopies: books.availableCopies })
       .from(books)
@@ -203,7 +225,7 @@ export const getBorrowedBookById = async (id: string) => {
               month: "short",
               day: "numeric",
             })
-          : '',
+          : "",
       };
     });
 

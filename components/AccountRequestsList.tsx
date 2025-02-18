@@ -27,8 +27,8 @@ const AccountRequestsList = ({ dataList = [] }) => {
               layout="vertical"
               classNameAvatar="w-12 h-12"
               src={data.universityCard}
-              name={data.title}
-              email={data.author}
+              name={data.name}
+              email={data.email}
             />
           </div>
         ))}

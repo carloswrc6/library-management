@@ -1,30 +1,26 @@
 "use client";
 
 import BookList from "@/components/BookList";
-// import CustomPagination from "@/components/CustomPagination";
-// import CustomSelect from "@/components/CustomSelect";
 import NoResults from "@/components/NoResults";
 import { Input } from "@/components/ui/input";
 import { getSearchBook } from "@/lib/actions/book";
 import Image from "next/image";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useRef } from "react";
 
-const page = () => {
+const Page = () => {
   const [search, setSearch] = useState("");
   const [searchResults, setSearchResults] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
-  // const [selectedFruit, setSelectedFruit] = useState("");
-  // const fruits = [
-  //   { label: "Apple", value: "apple" },
-  //   { label: "Banana", value: "banana" },
-  //   { label: "Blueberry", value: "blueberry" },
-  //   { label: "Grapes", value: "grapes" },
-  //   { label: "Pineapple", value: "pineapple" },
-  // ];
+  const inputRef = useRef<HTMLInputElement>(null);
 
   const handleClearSearch = () => {
     setSearch("");
     setSearchResults([]);
+    inputRef.current?.focus();
+  };
+
+  const handleSearch = () => {
+    inputRef.current?.focus();
   };
 
   useEffect(() => {
@@ -60,9 +56,11 @@ const page = () => {
               width={20}
               height={20}
               alt="Search Icon"
-              className="absolute left-3 top-1/2 -translate-y-1/2"
+              className="absolute left-3 top-1/2 -translate-y-1/2 cursor-pointer"
+              onClick={handleSearch}
             />
             <Input
+              ref={inputRef}
               className="form-input w-full pl-10"
               type="text"
               placeholder="Search for a book..."
@@ -75,28 +73,20 @@ const page = () => {
       {search && (
         <section>
           {isLoading ? (
-            <div className="text-center text-gray-500 mt-10">Buscando...</div>
+            <div className="text-center text-gray-500 mt-10">Searching...</div>
           ) : searchResults.length > 0 ? (
             <BookList
-              title="Search Results "
+              title="Search Results"
               books={searchResults}
               containerClassName="mt-28"
-            >
-              {/* <CustomSelect
-                label="Filter By"
-                options={fruits}
-                value={selectedFruit}
-                onChange={setSelectedFruit}
-              /> */}
-            </BookList>
+            />
           ) : (
             <NoResults title={search} onClearSearch={handleClearSearch} />
           )}
         </section>
       )}
-      {/* <CustomPagination></CustomPagination> */}
     </div>
   );
 };
 
-export default page;
+export default Page;

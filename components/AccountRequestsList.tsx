@@ -27,8 +27,16 @@ const AccountRequestsList = ({ dataList = [] }) => {
               layout="vertical"
               classNameAvatar="w-12 h-12"
               src={data.universityCard}
-              name={data.name}
-              email={data.email}
+              name={
+                <span className="block max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                  {data.name}
+                </span>
+              }
+              email={
+                <span className="block max-w-[100px] overflow-hidden text-ellipsis whitespace-nowrap">
+                  {data.email}
+                </span>
+              }
             />
           </div>
         ))}
